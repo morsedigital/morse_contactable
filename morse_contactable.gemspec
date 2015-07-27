@@ -14,7 +14,7 @@ Gem::Specification.new do |spec|
   end
 
   spec.summary       = %q{ Module to easily include contact fields in ActiveRecord models }
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.homepage      = "https://github.com/morsedigital/morse_contactable"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
