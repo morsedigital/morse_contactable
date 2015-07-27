@@ -1,8 +1,8 @@
 module Contactable
-  VALIDATE_EMAILABLE = %w{email}
-  VALIDATE_PHONEABLE = %w{phone}
   VALIDATE_ADDRESSABLE = %w{address1 postcode}
-  
+  VALIDATE_EMAILABLE = %w{email}
+  VALIDATE_PERSONABLE = ["firstname", "lastname"]
+  VALIDATE_PHONEABLE = %w{phone}
   extend ActiveSupport::Concern
   include FieldsValidator
 
@@ -39,6 +39,21 @@ module Contactable
       Contactable.collect_attributes(self,*REQUIRED_DATABASE_FIELDS)
     end
   end
+
+  module Person
+    extend ActiveSupport::Concern
+    include FieldsValidator
+
+    REQUIRED_DATABASE_FIELDS = %w{firstname lastname}
+
+    included do
+      validate_column_names(*REQUIRED_DATABASE_FIELDS)
+      load_required_attributes(*VALIDATE_PERSONABLE)
+    end
+    def contactable_person
+      Contactable.collect_attributes(self,*REQUIRED_DATABASE_FIELDS)
+    end
+  end
   
   module Phone
     extend ActiveSupport::Concern
@@ -58,5 +73,6 @@ module Contactable
 
   include Address
   include Email
+  include Person
   include Phone
 end
