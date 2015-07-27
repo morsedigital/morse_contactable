@@ -6,7 +6,7 @@ require 'morse_contactable/version'
 Gem::Specification.new do |spec|
   spec.name          = "morse_contactable"
   spec.version       = MorseContactable::VERSION
-  spec.authors       = ["Terry S","Fred Mcgroarty"]
+  spec.authors       = ["Terry S","Fred McGroarty"]
   spec.email         = ["itsterry@gmail.com"]
 
   if spec.respond_to?(:metadata)
