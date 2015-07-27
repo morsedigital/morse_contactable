@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
   spec.name          = "morse_contactable"
   spec.version       = MorseContactable::VERSION
   spec.authors       = ["Terry S","Fred McGroarty"]
-  spec.email         = ["itsterry@gmail.com"]
+  spec.email         = ["itsterry@gmail.com", 'freddymcgroarty@gmail.com']
 
   if spec.respond_to?(:metadata)
     #spec.metadata['allowed_push_host'] = "TODO: Set to 'http://mygemserver.com' to prevent pushes to rubygems.org, or delete to allow pushes to any server."
