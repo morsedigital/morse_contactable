@@ -1,8 +1,8 @@
 module Contactable
-  VALIDATE_ADDRESSABLE = %w{address1 postcode}
-  VALIDATE_EMAILABLE = %w{email}
-  VALIDATE_PERSONABLE = ["firstname", "lastname"]
-  VALIDATE_PHONEABLE = %w{phone}
+  VALIDATE_ADDRESSABLE = %w{address1 postcode} unless const_defined? :VALIDATE_ADDRESSABLE
+  VALIDATE_EMAILABLE = %w{email} unless const_defined? :VALIDATE_EMAILABLE 
+  VALIDATE_PERSONABLE = ["firstname", "lastname"] unless const_defined? :VALIDATE_PERSONABLE 
+  VALIDATE_PHONEABLE = %w{phone} unless const_defined? :VALIDATE_PHONEABLE
   extend ActiveSupport::Concern
   include FieldsValidator
 
@@ -14,7 +14,7 @@ module Contactable
     extend ActiveSupport::Concern
     include FieldsValidator
 
-    REQUIRED_DATABASE_FIELDS = %w{address1 address2 address3 town county country postcode}
+    REQUIRED_DATABASE_FIELDS = %w{address1 address2 address3 town county country postcode} unless const_defined? :REQUIRED_DATABASE_FIELDS 
 
     included do
       validate_column_names(*REQUIRED_DATABASE_FIELDS)
@@ -29,7 +29,7 @@ module Contactable
     extend ActiveSupport::Concern
     include FieldsValidator
 
-    REQUIRED_DATABASE_FIELDS = %w{email}
+    REQUIRED_DATABASE_FIELDS = %w{email} unless const_defined? :REQUIRED_DATABASE_FIELDS 
 
     included do
       validate_column_names(*REQUIRED_DATABASE_FIELDS)
@@ -44,7 +44,7 @@ module Contactable
     extend ActiveSupport::Concern
     include FieldsValidator
 
-    REQUIRED_DATABASE_FIELDS = %w{phone mobile}
+    REQUIRED_DATABASE_FIELDS = %w{phone mobile} unless const_defined? :REQUIRED_DATABASE_FIELDS 
 
     included do
       validate_column_names(*REQUIRED_DATABASE_FIELDS)
