@@ -58,6 +58,5 @@ module Contactable
 
   include Address
   include Email
-  include Person
   include Phone
 end
