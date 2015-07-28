@@ -40,21 +40,6 @@ module Contactable
     end
   end
 
-  module Person
-    extend ActiveSupport::Concern
-    include FieldsValidator
-
-    REQUIRED_DATABASE_FIELDS = %w{firstname lastname}
-
-    included do
-      validate_column_names(*REQUIRED_DATABASE_FIELDS)
-      load_required_attributes(*VALIDATE_PERSONABLE)
-    end
-    def contactable_person
-      Contactable.collect_attributes(self,*REQUIRED_DATABASE_FIELDS)
-    end
-  end
-  
   module Phone
     extend ActiveSupport::Concern
     include FieldsValidator
