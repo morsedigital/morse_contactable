@@ -6,12 +6,8 @@ require 'morse_contactable/version'
 Gem::Specification.new do |spec|
   spec.name          = "morse_contactable"
   spec.version       = MorseContactable::VERSION
-  spec.authors       = ["Terry S","fredmcgroarty"]
-  spec.email         = ["itsterry@gmail.com", 'mcfredmac@icloud.com']
-
-  if spec.respond_to?(:metadata)
-    #spec.metadata['allowed_push_host'] = "TODO: Set to 'http://mygemserver.com' to prevent pushes to rubygems.org, or delete to allow pushes to any server."
-  end
+  spec.authors       = ["fredmcgroarty"]
+  spec.email         = ["mcfremac@icloud.com"]
 
   spec.summary       = %q{Module to allow easy contact functions in ActiveRecord models}
   spec.homepage      = "https://github.com/morsedigital/morse_contactable"
@@ -30,7 +26,4 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "shoulda-matchers", "~> 2.8"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.2"
-  spec.add_development_dependency "pry-byebug"
-  spec.add_development_dependency "byebug"
-
 end
