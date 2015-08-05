@@ -9,7 +9,7 @@ module Emailable
   class_methods do
     def required_attributes
       result=defined?(super) ? super : []
-      result+=required_nameable_attributes
+      result+=required_emailable_attributes
     end
 
     def required_database_fields
@@ -17,7 +17,7 @@ module Emailable
       result+=[:email]
     end
 
-    def required_nameable_attributes
+    def required_emailable_attributes
       [:email]
     end
   end

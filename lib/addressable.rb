@@ -9,7 +9,7 @@ module Addressable
   class_methods do
     def required_attributes
       result=defined?(super) ? super : []
-      result+=required_nameable_attributes
+      result+=required_addressable_attributes
     end
 
     def required_database_fields
@@ -17,7 +17,7 @@ module Addressable
       result+=[:address1, :address2, :address3, :town, :county, :country, :postcode]
     end
 
-    def required_nameable_attributes
+    def required_addressable_attributes
       [:address1,:postcode]
     end
   end

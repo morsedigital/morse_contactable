@@ -9,7 +9,7 @@ module Phoneable
   class_methods do
     def required_attributes
       result=defined?(super) ? super : []
-      result+=required_nameable_attributes
+      result+=required_phoneable_attributes
     end
 
     def required_database_fields
@@ -17,7 +17,7 @@ module Phoneable
       result+=[:phone, :mobile]
     end
 
-    def required_nameable_attributes
+    def required_phoneable_attributes
       [:phone]
     end
   end
