@@ -14,7 +14,7 @@ module Addressable
 
     def required_database_fields
       result=defined?(super) ? super : []
-      result+=[:address1, :postcode]
+      result+=[:address1, :address2, :address3, :town, :county, :country, :postcode]
     end
 
     def required_nameable_attributes
