@@ -1,74 +1,85 @@
 require 'spec_helper'
 
-RSpec.describe Contactable::Address, type: :module do
+RSpec.describe Addressable, type: :module do
 
-  describe "REQUIRED_DATABASE_FIELDS" do 
-    class KlassWithNoAddressableFields
-      def self.column_names
-        ["cheese"]
-      end
+  class Thing < OpenStruct 
+    include ActiveModel::Validations
+    include Addressable
+    def initialize(*args)
+      super
     end
-    class KlassWithSomeAddressableFields
-      def self.column_names
-        ["address1"]
-      end
+    def self.column_names
+      []
     end
-    class KlassWithAllAddressableFields
-      def self.column_names
-        Contactable::Address::REQUIRED_DATABASE_FIELDS
-      end
-    end
-    describe "KlassWithNoAddressableFields" do 
-      it "raises RuntimeError: address1 not included. please ensure necessary fields are in place" do 
-        expect{KlassWithNoAddressableFields.include Contactable::Address}.to raise_error(RuntimeError, "address1 not included. please ensure necessary fields are in place")
-      end   
-    end
-    describe "KlassWithSomeAddressableFields" do 
-      it "raises RuntimeError: address2 not included. please ensure necessary fields are in place" do 
-        expect{KlassWithSomeAddressableFields.include Contactable::Address}.to raise_error(RuntimeError, "address2 not included. please ensure necessary fields are in place")
-      end   
-    end
-    describe "KlassWithAllAddressableFields" do 
-      it "doesnt raise error" do 
-        expect{KlassWithAllAddressableFields.include Contactable::Address}.to_not raise_error
-      end   
+    def errors_add(sym,text)
+      @errors[sym]=text
     end
   end
-  describe "load_required_attributes" do 
-    class KlassWithSomeValidations
-      def self.column_names
-        Contactable::Address::REQUIRED_DATABASE_FIELDS
-      end
-      include ActiveModel::Validations
-      Contactable::Address::REQUIRED_DATABASE_FIELDS.map { |x| attr_accessor x.to_sym }
-      include Contactable::Address
-      validate_required_attributes
-    end
-    describe KlassWithSomeValidations do 
-      it { is_expected.to validate_presence_of(:address1) }
-      it { is_expected.to validate_presence_of(:postcode) }
-
-      it { is_expected.to_not validate_presence_of(:town) } 
+  class ThingWithNoFields < Thing 
+    def self.column_names
+      []
     end
   end
-  describe "title" do 
-    class KlassWithTitle
-      def self.column_names
-        Contactable::Address::REQUIRED_DATABASE_FIELDS
-      end
-      include ActiveModel::Validations
-      Contactable::Address::REQUIRED_DATABASE_FIELDS.map { |x| attr_accessor x.to_sym }
-      include Contactable::Address
-      validate_required_attributes
-      # def address1=(value)
-      #   value
-      # end
+  class ThingWithAddress1 < Thing 
+    def self.column_names
+      %w{address1} 
     end
-    describe KlassWithTitle do 
-      let(:klass_with_title){KlassWithTitle.new}
-      it "contactable_address equals fred@fred.com" do
-        klass_with_title.address1 = "fred@fred.com"
-        expect(klass_with_title.contactable_address).to eq ["fred@fred.com"]
+  end
+  class ThingWithPostcode  < Thing
+    def self.column_names
+      %w{postcode} 
+    end
+  end
+  class ThingWithAllFields < Thing
+    def self.column_names
+      %w{address1 postcode} 
+    end
+  end
+  class ThingWithAllFieldsAndTitle < ThingWithAllFields
+    def title
+      "whev"
+    end
+  end
+
+  let(:address1){"26 Birchington"}
+  let(:postcode){"n8 8hp"}
+  let(:test_string){"whev"}
+  let(:thing){ThingWithAllFields.new(address1: address1,postcode: postcode)}
+  describe "validations" do
+    context "where the includer has all name fields" do
+      context "where all the values are present" do
+        let(:thing){ThingWithAllFields.new(address1: "Terry", postcode: "n8 8hp")}
+        it "should be_valid", focus: true do
+          expect(thing.errors.size).to eq(0)
+        end
+      end
+      context "where a value is missing" do
+        let(:thing){ThingWithAllFields.new(address1: "", postcode: "n8 8hp")}
+        it "should not be_valid" do
+          thing.valid?
+          expect(thing.errors.size>0).to be_truthy
+        end
+      end
+    end
+    context "where the includer has only address1" do
+      let(:thing){ThingWithAddress1.new(address1: "Terry")}
+      it "should not be_valid" do
+        thing.valid?
+        expect(thing.errors.size>0).to be_truthy
+      end
+    end
+    context "where the includer has only postcode" do
+      let(:thing){ThingWithPostcode.new(postcode: "Terry")}
+      it "should not be_valid" do
+        thing.valid?
+        expect(thing.errors.size>0).to be_truthy
+      end
+    end
+    context "where the includer has no name fields" do
+      let(:thing){ThingWithNoFields.new}
+      it "should not be_valid" do
+        thing.valid?
+        expect(thing.errors.size>0).to be_truthy
       end
     end
   end

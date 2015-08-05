@@ -1,58 +1,52 @@
 require 'spec_helper'
 
-RSpec.describe Contactable::Email, type: :module do
+RSpec.describe Emailable, type: :module do
 
-  describe "REQUIRED_DATABASE_FIELDS" do 
-    class KlassWithNoEmailableFields
-      def self.column_names
-        "cheese"
-      end
+  class Thing < OpenStruct 
+    include ActiveModel::Validations
+    include Emailable
+    def initialize(*args)
+      super
     end
-    class KlassWithAllEmailableFields
-      def self.column_names
-        Contactable::Email::REQUIRED_DATABASE_FIELDS
-      end
+    def self.column_names
+      []
     end
-    describe "KlassWithNoEmailableFields" do 
-      it "raises RuntimeError RuntimeError: email not included. please ensure necessary fields are in place" do 
-        expect{KlassWithNoEmailableFields.include Contactable::Email}.to raise_error(RuntimeError, "email not included. please ensure necessary fields are in place")
-      end   
-    end
-    describe "KlassWithAllEmailableFields" do 
-      it "doesnt raise error" do 
-        expect{KlassWithAllEmailableFields.include Contactable::Email}.to_not raise_error
-      end   
+    def errors_add(sym,text)
+      @errors[sym]=text
     end
   end
-  describe "load_required_attributes" do 
-    class KlassWithSomeValidations
-      def self.column_names
-        Contactable::Email::REQUIRED_DATABASE_FIELDS
-      end
-      include ActiveModel::Validations
-      Contactable::Email::REQUIRED_DATABASE_FIELDS.map { |x| attr_accessor x.to_sym }
-      include Contactable::Email
-      validate_required_attributes
-    end
-    describe KlassWithSomeValidations do 
-      it { is_expected.to validate_presence_of(:email) }
+  class ThingWithNoFields < Thing 
+    def self.column_names
+      []
     end
   end
-  describe "title" do 
-    class KlassWithTitle
-      def self.column_names
-        Contactable::Email::REQUIRED_DATABASE_FIELDS
-      end
-      include ActiveModel::Validations
-      Contactable::Email::REQUIRED_DATABASE_FIELDS.map { |x| attr_accessor x.to_sym }
-      include Contactable::Email
-      validate_required_attributes
+  class ThingWithAllFields < Thing
+    def self.column_names
+      %w{email} 
     end
-    describe KlassWithTitle do 
-      let(:klass_with_title){KlassWithTitle.new}
-      it "contactable_email equals fred@fred.com" do
-        klass_with_title.email = "fred@fred.com"
-        expect(klass_with_title.contactable_email).to eq ["fred@fred.com"]
+  end
+  class ThingWithAllFieldsAndTitle < ThingWithAllFields
+    def title
+      "whev"
+    end
+  end
+
+  let(:email){"fred@morsedigital.com"}
+  let(:thing){ThingWithAllFields.new(email: email)}
+  describe "validations" do
+    context "where the includer has all name fields" do
+      context "where all the values are present" do
+        let(:thing){ThingWithAllFields.new(email: "fred@morsedigital.com")}
+        it "should be_valid" do
+          expect(thing.errors.size).to eq(0)
+        end
+      end
+    end
+    context "where the includer has no name fields" do
+      let(:thing){ThingWithNoFields.new}
+      it "should not be_valid" do
+        thing.valid?
+        expect(thing.errors.size>0).to be_truthy
       end
     end
   end
