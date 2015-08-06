@@ -24,10 +24,6 @@ module Emailable
 
   public
 
-  def landline
-    phone
-  end
-
   private
 
 

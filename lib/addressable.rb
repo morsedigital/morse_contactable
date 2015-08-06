@@ -24,35 +24,6 @@ module Addressable
 
   public
 
-  def address_1
-    address1
-  end
-
-  def first_name=(thing)
-    self.address1=thing
-  end
-
-  def full_name
-    "#{address1} #{postcode}"
-  end
-
-  def proper_name
-    "#{postcode.upcase}, #{address1}"
-  end
-
-  def surname
-    postcode
-  end
-
-  def surname=(thing)
-    self.postcode=thing
-  end
-
-  def title
-    return super if defined?(super)
-    full_name
-  end
-
   private
 
 
