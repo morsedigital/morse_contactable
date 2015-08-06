@@ -44,7 +44,7 @@ RSpec.describe Addressable, type: :module do
   let(:address1){"26 Birchington"}
   let(:postcode){"n8 8hp"}
   let(:test_string){"whev"}
-  let(:thing){ThingWithAllFields.new(address1: address1,postcode: postcode)}
+  let(:thing){ThingWithAllFields.new(address1: address1,postcode: postcode, city: "UK TOWN", zipcode: "haha", state: "kansas")}
   describe "validations" do
     context "where the includer has all name fields" do
       context "where all the values are present" do
