@@ -83,4 +83,43 @@ RSpec.describe Addressable, type: :module do
       end
     end
   end
+  describe "instance functions" do
+
+    describe "city" do
+      it "should return town" do
+        expect(thing.city).to eq(thing.town)
+      end
+    end
+    describe "city=" do
+      it "should set town" do
+        expect(thing.town).to_not eq(test_string)
+        thing.city=test_string
+        expect(thing.town).to eq(test_string)
+      end
+    end
+    describe "state" do
+      it "should return county" do
+        expect(thing.state).to eq(thing.county)
+      end
+    end
+    describe "state=" do
+      it "should set county" do
+        expect(thing.county).to_not eq(test_string)
+        thing.state=test_string
+        expect(thing.county).to eq(test_string)
+      end
+    end
+    describe "zipcode" do
+      it "should return postcode" do
+        expect(thing.zipcode).to eq(thing.postcode)
+      end
+    end
+    describe "zipcode=" do
+      it "should set postcode" do
+        expect(thing.postcode).to_not eq(test_string)
+        thing.zipcode=test_string
+        expect(thing.postcode).to eq(test_string)
+      end
+    end
+  end
 end

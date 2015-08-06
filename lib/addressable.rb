@@ -24,6 +24,30 @@ module Addressable
 
   public
 
+  def city
+    town
+  end
+
+  def city=(thing)
+    self.town = thing 
+  end
+
+  def state
+    county
+  end
+
+  def state=(thing)
+    self.county = thing 
+  end
+
+  def zipcode
+    postcode
+  end
+
+  def zipcode=(thing)
+    self.postcode = thing 
+  end
+
   private
 
 
