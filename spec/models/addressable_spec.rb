@@ -109,6 +109,18 @@ RSpec.describe Addressable, type: :module do
         expect(thing.county).to eq(test_string)
       end
     end
+    describe "region" do
+      it "should return country" do
+        expect(thing.region).to eq(thing.country)
+      end
+    end
+    describe "region=" do
+      it "should set country" do
+        expect(thing.country).to_not eq(test_string)
+        thing.region=test_string
+        expect(thing.country).to eq(test_string)
+      end
+    end
     describe "zipcode" do
       it "should return postcode" do
         expect(thing.zipcode).to eq(thing.postcode)

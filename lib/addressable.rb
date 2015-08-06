@@ -32,6 +32,14 @@ module Addressable
     self.town = thing 
   end
 
+  def region
+    country
+  end
+
+  def region=(thing)
+    self.country = thing 
+  end
+
   def state
     county
   end
