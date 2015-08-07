@@ -84,7 +84,11 @@ RSpec.describe Addressable, type: :module do
     end
   end
   describe "instance functions" do
-
+    describe "address_pretty" do 
+      it "is a string" do 
+        expect(thing.address_pretty).to be_a(String)
+      end
+    end
     describe "city" do
       it "should return town" do
         expect(thing.city).to eq(thing.town)
