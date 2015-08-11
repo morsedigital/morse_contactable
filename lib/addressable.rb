@@ -45,6 +45,14 @@ module Addressable
     self.county = thing 
   end
 
+  def zip
+    postcode
+  end
+
+  def zip=(thing)
+    self.postcode = thing 
+  end
+
   def zipcode
     postcode
   end
