@@ -2,7 +2,7 @@ module Addressable
   extend ActiveSupport::Concern
   include FieldsValidator
   REQUIRED_DATABASE_FIELDS = [:address1, :address2, :address3, :town, :county, :country, :postcode]
-  
+
   included do
     validate_required_attributes
   end
@@ -25,6 +25,10 @@ module Addressable
 
   public
 
+  def address_array
+    Array.new.tap { |a| REQUIRED_DATABASE_FIELDS.select { |key| a<<self.send(key) } }
+  end
+
   def address_pretty
     stringify_array address_array
   end
@@ -34,7 +38,7 @@ module Addressable
   end
 
   def city=(thing)
-    self.town = thing 
+    self.town = thing
   end
 
   def state
@@ -42,7 +46,7 @@ module Addressable
   end
 
   def state=(thing)
-    self.county = thing 
+    self.county = thing
   end
 
   def zip
@@ -50,7 +54,7 @@ module Addressable
   end
 
   def zip=(thing)
-    self.postcode = thing 
+    self.postcode = thing
   end
 
   def zipcode
@@ -58,14 +62,10 @@ module Addressable
   end
 
   def zipcode=(thing)
-    self.postcode = thing 
+    self.postcode = thing
   end
 
   private
-
-  def address_array
-    Array.new.tap { |a| REQUIRED_DATABASE_FIELDS.select { |key| a<<self.send(key) } }
-  end
 
   def stringify_array(array)
     array.compact.join(", ")
