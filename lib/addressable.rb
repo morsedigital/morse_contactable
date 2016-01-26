@@ -1,6 +1,7 @@
 module Addressable
   extend ActiveSupport::Concern
   include FieldsValidator
+  REQUIRED_DATABASE_FIELDS = [:title, :address1, :address2, :address3, :town, :county, :country, :postcode]
 
   included do
     validate_required_attributes
@@ -14,7 +15,7 @@ module Addressable
 
     def required_database_fields
       result=defined?(super) ? super : []
-      result+=[:title, :address1, :address2, :address3, :town, :county, :country, :postcode]
+      result+= REQUIRED_DATABASE_FIELDS
     end
 
     def required_addressable_attributes
