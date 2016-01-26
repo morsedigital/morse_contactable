@@ -26,7 +26,7 @@ module Addressable
   public
 
   def address_array
-    Array.new.tap { |a| required_database_fields.select { |key| a<<self.send(key) } }
+    Array.new.tap { |a| REQUIRED_DATABASE_FIELDS.select { |key| a<<self.send(key) } }
   end
 
   def address_pretty
