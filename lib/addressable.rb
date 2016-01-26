@@ -1,7 +1,6 @@
 module Addressable
   extend ActiveSupport::Concern
   include FieldsValidator
-  REQUIRED_DATABASE_FIELDS = [:address1, :address2, :address3, :town, :county, :country, :postcode]
 
   included do
     validate_required_attributes
@@ -15,7 +14,7 @@ module Addressable
 
     def required_database_fields
       result=defined?(super) ? super : []
-      result+= REQUIRED_DATABASE_FIELDS
+      result+=[:title, :address1, :address2, :address3, :town, :county, :country, :postcode]
     end
 
     def required_addressable_attributes
@@ -26,7 +25,7 @@ module Addressable
   public
 
   def address_array
-    Array.new.tap { |a| REQUIRED_DATABASE_FIELDS.select { |key| a<<self.send(key) } }
+    Array.new.tap { |a| required_database_fields.select { |key| a<<self.send(key) } }
   end
 
   def address_pretty
