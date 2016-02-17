@@ -2,7 +2,7 @@ require 'spec_helper'
 
 RSpec.describe Addressable, type: :module do
 
-  class Thing < OpenStruct 
+  class Thing < OpenStruct
     include ActiveModel::Validations
     include Addressable
     def initialize(*args)
@@ -15,24 +15,24 @@ RSpec.describe Addressable, type: :module do
       @errors[sym]=text
     end
   end
-  class ThingWithNoFields < Thing 
+  class ThingWithNoFields < Thing
     def self.column_names
       []
     end
   end
-  class ThingWithAddress1 < Thing 
+  class ThingWithAddress1 < Thing
     def self.column_names
-      %w{address1} 
+      %w{address1}
     end
   end
   class ThingWithPostcode  < Thing
     def self.column_names
-      %w{postcode} 
+      %w{postcode}
     end
   end
   class ThingWithAllFields < Thing
     def self.column_names
-      %w{address1 postcode} 
+      %w{address1 postcode}
     end
   end
   class ThingWithAllFieldsAndTitle < ThingWithAllFields
@@ -41,15 +41,15 @@ RSpec.describe Addressable, type: :module do
     end
   end
 
-  let(:address1){"26 Birchington"}
-  let(:postcode){"n8 8hp"}
+  let(:address1){"22 Birchington"}
+  let(:postcode){"n8 8hx"}
   let(:test_string){"whev"}
   let(:thing){ThingWithAllFields.new(address1: address1,postcode: postcode, city: "UK TOWN", zipcode: "haha", state: "kansas")}
   describe "validations" do
     context "where the includer has all name fields" do
       context "where all the values are present" do
         let(:thing){ThingWithAllFields.new(address1: "Terry", postcode: "n8 8hp")}
-        it "should be_valid", focus: true do
+        it "should be_valid" do
           expect(thing.errors.size).to eq(0)
         end
       end
@@ -84,8 +84,15 @@ RSpec.describe Addressable, type: :module do
     end
   end
   describe "instance functions" do
-    describe "address_pretty" do 
-      it "is a string" do 
+    describe 'address_hash' do
+      it 'returns a k,v pair with address attributes' do
+        expect(thing.address_hash).to be_a(Hash)
+        expect(thing.address_hash).to include(address1: address1)
+        expect(thing.address_hash).to include(postcode: postcode)
+      end
+    end
+    describe "address_pretty" do
+      it "is a string" do
         expect(thing.address_pretty).to be_a(String)
       end
     end

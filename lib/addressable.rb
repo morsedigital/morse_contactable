@@ -29,6 +29,10 @@ module Addressable
     Array.new.tap { |a| REQUIRED_DATABASE_FIELDS.select { |key| a<<self.send(key) } }
   end
 
+  def address_hash
+    REQUIRED_DATABASE_FIELDS.each_with_object({}) { |f, o| o.merge!(f => self.send(f)) }
+  end
+
   def address_pretty
     stringify_array address_array
   end
