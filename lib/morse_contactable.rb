@@ -6,5 +6,9 @@ require "addressable"
 require "emailable"
 require "phoneable"
 module MorseContactable
-  # Your code goes here...
+  extend ActiveSupport::Concern
+  include FieldsValidator
+  include Addressable,
+          Emailable,
+          Phoneable
 end
