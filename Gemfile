@@ -5,4 +5,3 @@ gemspec
 
 gem "activemodel"
 gem "activesupport"
-gem "morse_fields_validator", "~> 1.2.0"
